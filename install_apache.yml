@@ -4,18 +4,10 @@
   tasks:
 
   - name: install apache2 package
-    ansible.builtin.apt:
+    ansible.builtin.package:
       name: 
         - "{{ apache_package }}"
         - "{{ php_package }}"
       state: latest
       update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-
-  - name: install apache2 package
-    ansible.builtin.shell: |
-      dnf5 makecache
-      dnf5 install -y httpd php
-    when: ansible_distribution == "Fedora"
-
 
