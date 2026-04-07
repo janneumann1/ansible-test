@@ -36,6 +36,24 @@
       group: root
       mode: 644
 
+  - name: Change admin email
+    tags: fedora
+    ansible.builtin.lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@acme.org
+    when: ansible_distribution == "Fedora"
+    register: httpd
+#register is good for storing events, name can be anything
+
+  - name: Restart httpd
+    tags: fedora,apache
+    ansible.builtin.service:
+      name: httpd
+      state: restarted
+    when: httpd.change
+# Here we are using the httpd register
+
 - hosts: other_servers
   become: true
   tasks:

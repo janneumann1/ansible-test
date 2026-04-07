@@ -11,3 +11,10 @@
       state: latest
       update_cache: yes
 
+  - name: Make sure www is running on Fedora
+    tags: fedora
+    ansible.builtin.service:
+      name: httpd
+      state: started
+    when: ansible_distribution == "Fedora"
+
